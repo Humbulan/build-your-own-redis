@@ -83,6 +83,16 @@ def handle_command(parts, conn=None):
     
     # RPUSH command
     elif command == "RPUSH":
+    elif command == "LPUSH":
+        if len(parts) >= 3:
+            key = parts[1]
+            values = parts[2:]
+            if key not in lists:
+                lists[key] = []
+            for value in reversed(values):
+                lists[key].insert(0, value)
+            return f":{len(lists[key])}\r\n"
+        return "-ERR wrong number of arguments\r\n"
         if len(parts) >= 3:
             key = parts[1]
             values = parts[2:]
